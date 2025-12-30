@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import NeoCard from '../components/ui/NeoCard';
 import NeoButton from '../components/ui/NeoButton';
 import ProfileCard from '../components/Profile_Card';
-import SupabaseGuide from '../components/SupabaseGuide';
+import SupabaseGuide from './components/SupabaseGuide';
 import { User, Zap, Loader2, LogOut, AlertTriangle, Database, ShieldAlert, RefreshCw, UserMinus, Cpu, Layers, Sparkles, X } from 'lucide-react';
 import { authService } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
