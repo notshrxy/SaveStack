@@ -1,0 +1,7 @@
+{
+  "name": "SaveStack - Content Hub for All",
+  "description": "A Neo-Brutalist AI-powered hub for students to save, categorize, and actually finish their saved educational content.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
