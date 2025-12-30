@@ -13,6 +13,12 @@ Unlike traditional bookmark managers that become digital graveyards, **SaveStack
 
 ---
 
+## Navigating the Interface
+
+![Image](https://github.com/user-attachments/assets/a710a3b5-7110-4c07-81d1-c22161337496)
+
+---
+
 ## ✨ Core Idea
 
 Most people save things with good intentions… and never return.
