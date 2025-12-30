@@ -4,7 +4,7 @@
 
 SaveStack is a lightweight, privacy-first web app that helps users save important links, notes, and resources in one place — and gently nudges them to come back before their saves disappear.
 
-**I’m building an AI-powered tool that organizes all the educational content students save across apps like Instagram, WhatsApp, YouTube, and LinkedIn.
+**I’ve built an AI-powered tool that organizes all the educational content students save across apps like Instagram, WhatsApp, YouTube, and LinkedIn.
 The tool automatically categorizes posts by domain (like full-stack, UI/UX, game dev), summarizes them, and marks content as “viewed” or “done.”
 It solves a real problem: students save hundreds of reels and posts but forget about them within days. 
 My tool becomes a smart “content brain” that filters, reminds, sorts, and creates a personalized learning playlist.**
