@@ -83,7 +83,7 @@ SaveStack helps you *remember what you saved* — or lets it go.
 
 ---
 
-## StashCast - For people om the go, all the time.
+## StashCast - For people on the go, all the time.
 
 ![Image](https://github.com/user-attachments/assets/5717c51b-d0c2-4438-afd4-64ad49cb6cdf)
 
