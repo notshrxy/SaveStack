@@ -17,6 +17,9 @@ Unlike traditional bookmark managers that become digital graveyards, **SaveStack
 
 ![Image](https://github.com/user-attachments/assets/a710a3b5-7110-4c07-81d1-c22161337496)
 
+![Image](https://github.com/user-attachments/assets/1270050b-110b-459e-9d1d-ddf7e9003fcb)
+
+
 ---
 
 ## ✨ Core Idea
@@ -42,12 +45,12 @@ Think of it as a **temporary brain cache** rather than infinite storage.
 
 ### ⏳ Time-Aware Storage
 
-* Saves are **auto-deleted after 30 days**
-* Keeps IndexedDB storage clean and intentional
+* Saves are **auto-deleted after 30 days** (Pending)
+* Keeps IndexedDB storage clean and intentional (Enables Local Storage)
 
-### 🔔 Smart Email Reminders
+### 🔔 Smart Email Reminders (Pending)
 
-* Reminder emails sent every **15–30 days**
+* Reminder emails sent every **15–30 days** 
 * Notifies users before their saves expire
 
 ### 🔐 Auth & Profiles
@@ -71,6 +74,18 @@ Think of it as a **temporary brain cache** rather than infinite storage.
 * ✅ A **learning companion**
 
 SaveStack helps you *remember what you saved* — or lets it go.
+
+---
+
+## How do 'Streaks' work?
+
+![Image](https://github.com/user-attachments/assets/f7027437-8f8e-468d-a6f9-e50919828617)
+
+---
+
+## StashCast - For people om the go, all the time.
+
+![Image](https://github.com/user-attachments/assets/5717c51b-d0c2-4438-afd4-64ad49cb6cdf)
 
 ---
 
