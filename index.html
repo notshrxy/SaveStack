@@ -179,14 +179,16 @@
     "uuid": "https://esm.sh/uuid@^13.0.0",
     "gsap/": "https://esm.sh/gsap@^3.14.2/",
     "gsap": "https://esm.sh/gsap@^3.14.2",
-    "framer-motion": "https://esm.sh/framer-motion@^11.11.11"
+    "framer-motion": "https://esm.sh/framer-motion@^11.11.11",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <!-- CRITICAL: Added entry point script tag for Vercel/Vite build -->
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
