@@ -1,18 +1,19 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, Sparkles, ArrowRight, ZapOff } from 'lucide-react';
+import { Loader2, Sparkles, ArrowRight } from 'lucide-react';
 import Navbar from './components/Navbar';
 import HomeView from './views/HomeView';
 import ProjectsView from './views/ProjectsView';
 import CategoriesView from './views/CategoriesView';
 import AuthView from './views/AuthView';
 import BrainWeb from './components/BrainWeb';
-import EarWorm from './components/EarWorm';
 import AddContentModal from './components/AddContentModal';
 import SaveStackGenie from './components/SummaryPanel'; 
 import HelpChatbot from './components/HelpChatbot';
 import QuizModal from './components/QuizModal';
 import FocusTimer from './components/FocusTimer';
+import EarWorm from './components/EarWorm';
 import FloatingShapes from './components/ui/FloatingShapes';
 import GuideModal from './components/GuideModal';
 import StashCastGuide from './components/StashCastGuide';
@@ -27,6 +28,7 @@ import { MOCK_ITEMS } from './constants';
 import { dbService } from './services/db';
 import { supabase } from './services/supabaseClient';
 import { vaultService } from './services/vaultService';
+import { Session, AuthChangeEvent } from '@supabase/supabase-js';
 
 function App() {
   const [currentView, setCurrentView] = useState<ViewState>('HOME');
@@ -134,7 +136,7 @@ function App() {
         }
 
         // 3. Identity check
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
           setUser(session?.user ?? null);
           checkAIStatus();
         });
@@ -156,7 +158,7 @@ function App() {
 
     init();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       const newUser = session?.user ?? null;
       setUser(newUser);
       if (newUser) checkAIStatus();
@@ -295,7 +297,7 @@ function App() {
                 <div className="bg-[#B088FF] p-6 border-4 border-black w-24 h-24 flex items-center justify-center mx-auto mb-10 shadow-[8px_8px_0px_black]">
                   <Sparkles size={48} className="text-white" strokeWidth={3} />
                 </div>
-                <h2 className="text-5xl font-black uppercase mb-6 tracking-tighter leading-[0.9]">STASH NOT SYNCED.</h2>
+                <h2 className="text-5xl font-black uppercase mb-6 tracking-tighter lineage-[0.9]">STASH NOT SYNCED.</h2>
                 <NeoButton fullWidth onClick={() => setCurrentView('AUTH')} size="lg" className="!bg-black !text-white text-2xl py-8 shadow-[10px_10px_0px_#A3E635]">
                   LET'S SYNC YOUR STASH <ArrowRight size={28} className="ml-3" strokeWidth={3} />
                 </NeoButton>
