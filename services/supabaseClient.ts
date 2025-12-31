@@ -15,4 +15,4 @@ export const isSupabaseConfigured = () => {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Log verification
-console.log("🚀 Supabase Client: Direct Link Established to bxvkrigyblidxhfzkliv");
+console.log("🚀 Supabase Client: Direct Link Established to DB");
