@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Hardcoded for project: bxvkrigyblidxhfzkliv
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY!;
 
 /**
  * Diagnostic helper to verify if the configuration is valid.
