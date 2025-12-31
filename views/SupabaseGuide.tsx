@@ -1,8 +1,6 @@
-  import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { X, Database, Code, AlertTriangle, ShieldCheck } from 'lucide-react';
-import NeoCard from '../ui/NeoCard';
-import NeoButton from '../ui/NeoButton';
 
 interface SupabaseGuideProps {
   isOpen: boolean;
