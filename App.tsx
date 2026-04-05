@@ -369,7 +369,7 @@ function App() {
               items={filteredItems}
               onToggleCheck={handleToggleCheck}
               onMarkAllChecked={handleMarkAllChecked}
-              onRequestDelete={setProjectToDelete}
+              onRequestDelete={(item) => setProjectToDelete(item)}
               onSelectItem={setSelectedProject}
               onReorder={handleReorderItems}
               onInteract={handleInteract}
