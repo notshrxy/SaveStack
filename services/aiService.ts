@@ -22,7 +22,7 @@ export const GeminiProvider = {
    * This is called on-demand by features, never at app startup.
    */
   async getClient(): Promise<GoogleGenAI> {
-    const apiKey = await vaultService.getKey(AIProvider.GEMINI) || process.env.API_KEY;
+    const apiKey = await vaultService.getKey(AIProvider.GEMINI) || import.meta.env.VITE_API_KEY;
     if (!apiKey) throw new Error("NEURAL_LINK_DISCONNECTED");
     return new GoogleGenAI({ apiKey });
   },
