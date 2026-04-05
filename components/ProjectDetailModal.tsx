@@ -99,7 +99,7 @@ const ProjectDetailModal: React.FC<ProjectDetailModalProps> = ({ item, onClose, 
                                                         ))}
 
                                                         {/* Custom Categories if any (not in CATEGORY_LIST) */}
-                                                        {!CATEGORY_LIST.includes(item.category) && (
+                                                        {!(CATEGORY_LIST as readonly string[]).includes(item.category) && (
                                                             <button
                                                                 onClick={() => handleCategoryChange(item.category)}
                                                                 className="w-full text-left px-3 py-2 font-black text-[10px] uppercase tracking-widest border-2 border-black bg-gray-100 flex items-center justify-between"
