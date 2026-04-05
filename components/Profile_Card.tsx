@@ -322,22 +322,22 @@ export default function ProfileCard({
         {behindGlowEnabled && (
           <div className="glow-behind absolute inset-0 z-0 pointer-events-none" />
         )}
-        
+
         <div ref={shellRef} className="card-shell">
           <div className="profile-card relative grid h-[540px] aspect-[0.718] rounded-[30px] bg-black/90 overflow-hidden"
-               style={{
-                 boxShadow: `rgba(0, 0, 0, 0.4) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px`,
-                 transformStyle: 'preserve-3d'
-               }}>
-            
+            style={{
+              boxShadow: `rgba(0, 0, 0, 0.4) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px`,
+              transformStyle: 'preserve-3d'
+            }}>
+
             {/* Inside layer with gradient */}
             <div className="absolute inset-0 rounded-[30px] bg-gradient-to-br from-purple-900/55 to-cyan-400/25" style={{ gridArea: '1/-1', transform: 'translateZ(0px)' }} />
-            
+
             {/* Shine effect */}
             <div className="shine-layer absolute inset-0 rounded-[30px] pointer-events-none z-10"
-                 style={{
-                   gridArea: '1/-1',
-                   background: `
+              style={{
+                gridArea: '1/-1',
+                background: `
                      repeating-linear-gradient(0deg,
                        hsl(2, 100%, 73%) calc(5% * 1),
                        hsl(53, 100%, 69%) calc(5% * 2),
@@ -358,46 +358,46 @@ export default function ProfileCard({
                        hsla(0, 0%, 0%, 0.15) 20%,
                        hsla(0, 0%, 0%, 0.25) 120%)
                    `,
-                   backgroundPosition: '0 var(--background-y), var(--background-x) var(--background-y), center',
-                   backgroundBlendMode: 'color, hard-light',
-                   backgroundSize: '500% 500%, 300% 300%, 200% 200%',
-                   backgroundRepeat: 'repeat'
-                 }} />
-            
+                backgroundPosition: '0 var(--background-y), var(--background-x) var(--background-y), center',
+                backgroundBlendMode: 'color, hard-light',
+                backgroundSize: '500% 500%, 300% 300%, 200% 200%',
+                backgroundRepeat: 'repeat'
+              }} />
+
             {/* Glare overlay */}
             <div className="absolute inset-0 rounded-[30px] pointer-events-none z-20 mix-blend-overlay"
-                 style={{
-                   gridArea: '1/-1',
-                   background: `radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
+              style={{
+                gridArea: '1/-1',
+                background: `radial-gradient(farthest-corner circle at var(--pointer-x) var(--pointer-y),
                      hsl(248, 25%, 80%) 12%,
                      hsla(207, 40%, 30%, 0.8) 90%)`,
-                   filter: 'brightness(0.8) contrast(1.2)',
-                   transform: 'translateZ(10px)'
-                 }} />
-            
+                filter: 'brightness(0.8) contrast(1.2)',
+                transform: 'translateZ(10px)'
+              }} />
+
             {/* Avatar Container - Removed mix-blend-luminosity for better stability */}
             <div className="absolute inset-0 z-30 pointer-events-none" style={{ gridArea: '1/-1', transformStyle: 'preserve-3d' }}>
               <img
-                src={avatarUrl}
+                src={avatarUrl || undefined}
                 alt={`${name} avatar`}
                 className="avatar-img w-full absolute left-1/2 bottom-[-1px]"
                 loading="eager"
               />
             </div>
-            
+
             {/* Text content */}
             <div className="absolute inset-0 text-center z-40 pointer-events-none"
-                 style={{
-                   gridArea: '1/-1',
-                   transform: `translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 50px)`
-                 }}>
+              style={{
+                gridArea: '1/-1',
+                transform: `translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 50px)`
+              }}>
               <div className="absolute top-12 w-full flex flex-col">
                 <h3 className="font-semibold text-5xl m-0 bg-gradient-to-b from-white to-[#6f6fbe] bg-clip-text text-transparent px-4 truncate"
-                    style={{ backgroundSize: '1em 1.5em' }}>
+                  style={{ backgroundSize: '1em 1.5em' }}>
                   {name}
                 </h3>
                 <h4 className="font-semibold relative -top-3 whitespace-nowrap text-base m-0 mx-auto w-min bg-gradient-to-b from-white to-[#4a4ac0] bg-clip-text text-transparent"
-                   style={{ backgroundSize: '1em 1.5em' }}>
+                  style={{ backgroundSize: '1em 1.5em' }}>
                   {title}
                 </h4>
               </div>
