@@ -20,7 +20,7 @@ const HelpChatbot: React.FC<HelpChatbotProps> = ({ isOpen, onClose, onAIError })
   const [isMinimized, setIsMinimized] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
   const [chatSession, setChatSession] = useState<Chat | null>(null);
-  
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -87,10 +87,10 @@ const HelpChatbot: React.FC<HelpChatbotProps> = ({ isOpen, onClose, onAIError })
     <div className="fixed bottom-6 right-6 z-[120] pointer-events-none">
       <AnimatePresence>
         {!isMinimized ? (
-          <motion.div 
-            initial={{ opacity: 0, y: 50, scale: 0.9 }} 
-            animate={{ opacity: 1, y: 0, scale: 1 }} 
-            exit={{ opacity: 0, y: 50, scale: 0.9 }} 
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
             className="pointer-events-auto"
           >
             <NeoCard className="w-80 md:w-96 bg-white p-0 overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black">
@@ -122,19 +122,29 @@ const HelpChatbot: React.FC<HelpChatbotProps> = ({ isOpen, onClose, onAIError })
                 )}
               </div>
               <form onSubmit={handleSend} className="p-3 border-t-4 border-black bg-white flex gap-2">
-                <input 
-                  type="text" 
-                  value={input} 
-                  onChange={(e) => setInput(e.target.value)} 
-                  placeholder="Ask the Guide..." 
-                  className="flex-grow bg-[#FAF5E9] border-2 border-black p-2 font-bold text-xs outline-none focus:bg-white transition-colors" 
-                />
-                <button 
-                  type="submit" 
-                  disabled={isLoading} 
+                <div className="relative flex-grow">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder={isLoading ? "" : "Ask the Guide..."}
+                    disabled={isLoading}
+                    className="w-full bg-[#FAF5E9] border-2 border-black p-2 font-bold text-xs outline-none focus:bg-white transition-colors disabled:opacity-50"
+                  />
+                  {isLoading && (
+                    <div className="absolute left-2 top-1/2 -translate-y-1/2 flex gap-1 items-center pointer-events-none">
+                      <div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse"></div>
+                      <div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse [animation-delay:200ms]"></div>
+                      <div className="w-1.5 h-1.5 bg-black rounded-full animate-pulse [animation-delay:400ms]"></div>
+                    </div>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  disabled={isLoading || !input.trim()}
                   className="bg-black text-white p-2 border-2 border-black hover:bg-[#A3E635] hover:text-black transition-all disabled:opacity-50"
                 >
-                  <Send size={18} />
+                  {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
                 </button>
               </form>
             </NeoCard>
@@ -148,9 +158,9 @@ const HelpChatbot: React.FC<HelpChatbotProps> = ({ isOpen, onClose, onAIError })
                   initial={{ opacity: 0, scale: 0.5, x: 20, y: 20 }}
                   animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                   exit={{ opacity: 0, scale: 0.5, x: 20, y: 20 }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 400, 
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
                     damping: 25,
                     delay: 0.1
                   }}
@@ -171,9 +181,9 @@ const HelpChatbot: React.FC<HelpChatbotProps> = ({ isOpen, onClose, onAIError })
               )}
             </AnimatePresence>
 
-            <motion.button 
-              layoutId="chat-toggle" 
-              onClick={() => setIsMinimized(false)} 
+            <motion.button
+              layoutId="chat-toggle"
+              onClick={() => setIsMinimized(false)}
               className="bg-[#A3E635] border-4 border-black p-4 rounded-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all group"
             >
               <MessageCircle size={28} className="group-hover:scale-110 transition-transform" strokeWidth={3} />
