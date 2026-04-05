@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type, Modality, Chat } from "@google/genai";
-import { Category, ContentItem, AIProvider, SemanticConnection } from "../types";
+import { Category, ContentItem, AIProvider, SemanticConnection, DEFAULT_CATEGORIES } from "../types";
 import { vaultService } from "./vaultService";
 
 /**
@@ -42,23 +42,23 @@ export const stripMarkdown = (text: string): string => text.replace(/\*\*|#/g, '
 // Helper: Map AI strings to internal Category enum
 const mapCategory = (catString: string): Category => {
   const catUpper = catString.toUpperCase();
-  if (catUpper.includes('STACK')) return Category.FULL_STACK;
-  if (catUpper.includes('UI') || catUpper.includes('UX')) return Category.UI_UX;
-  if (catUpper.includes('DESIGN')) return Category.DESIGN;
-  if (catUpper.includes('GAME')) return Category.GAME_DEV;
-  if (catUpper.includes('AI') || catUpper.includes('ML')) return Category.AI_ML;
-  if (catUpper.includes('TOOL')) return Category.TOOLS;
-  if (catUpper.includes('SCREENSHOT')) return Category.SCREENSHOTS;
-  if (catUpper.includes('NOTE')) return Category.NOTES;
-  return Category.OTHER;
+  if (catUpper.includes('STACK')) return DEFAULT_CATEGORIES.FULL_STACK;
+  if (catUpper.includes('UI') || catUpper.includes('UX')) return DEFAULT_CATEGORIES.UI_UX;
+  if (catUpper.includes('DESIGN')) return DEFAULT_CATEGORIES.DESIGN;
+  if (catUpper.includes('GAME')) return DEFAULT_CATEGORIES.GAME_DEV;
+  if (catUpper.includes('AI') || catUpper.includes('ML')) return DEFAULT_CATEGORIES.AI_ML;
+  if (catUpper.includes('TOOL')) return DEFAULT_CATEGORIES.TOOLS;
+  if (catUpper.includes('SCREENSHOT')) return DEFAULT_CATEGORIES.SCREENSHOTS;
+  if (catUpper.includes('NOTE')) return DEFAULT_CATEGORIES.NOTES;
+  return DEFAULT_CATEGORIES.OTHER;
 };
 
 /** 
  * FEATURE: CONTENT ANALYSIS
  */
-export const analyzeContent = async (input: string): Promise<{title: string, summary: string, category: Category}> => {
+export const analyzeContent = async (input: string): Promise<{ title: string, summary: string, category: Category }> => {
   const { client, modelName } = await GeminiProvider.createModel();
-  
+
   const response = await client.models.generateContent({
     model: modelName,
     contents: `Analyze: "${input}". Return JSON {title, summary, category}.`,
@@ -89,9 +89,9 @@ export const analyzeContent = async (input: string): Promise<{title: string, sum
  */
 export const generateAudioBriefing = async (items: ContentItem[]): Promise<string> => {
   const { client } = await GeminiProvider.createModel('gemini-2.5-flash-preview-tts');
-  
+
   const prompt = `Say the following in a cheerful student radio voice: "Hey everyone! Here is your quick SaveStack update. First, ${items.map(i => `${i.title}, which is ${i.summary}`).join('. Next up, ')}. Keep studying!"`;
-  
+
   const response = await client.models.generateContent({
     model: "gemini-2.5-flash-preview-tts",
     contents: [{ parts: [{ text: prompt }] }],
@@ -102,7 +102,7 @@ export const generateAudioBriefing = async (items: ContentItem[]): Promise<strin
       },
     },
   });
-  
+
   return response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data || "";
 };
 
@@ -111,9 +111,9 @@ export const generateAudioBriefing = async (items: ContentItem[]): Promise<strin
  */
 export const analyzeConnections = async (items: ContentItem[]): Promise<SemanticConnection[]> => {
   const { client } = await GeminiProvider.createModel('gemini-3-pro-preview');
-  
-  const prompt = `Analyze these ${items.length} items and find 5-8 semantic connections. Provide JSON array of connections: {fromId, toId, type, reason}. Items: ${JSON.stringify(items.map(i => ({id: i.id, title: i.title, summary: i.summary})))}`;
-  
+
+  const prompt = `Analyze these ${items.length} items and find 5-8 semantic connections. Provide JSON array of connections: {fromId, toId, type, reason}. Items: ${JSON.stringify(items.map(i => ({ id: i.id, title: i.title, summary: i.summary })))}`;
+
   const response = await client.models.generateContent({
     model: 'gemini-3-pro-preview',
     contents: prompt,
@@ -204,7 +204,7 @@ export const createHelpChat = async (): Promise<Chat> => {
 /**
  * FEATURE: IMAGE ANALYSIS
  */
-export const analyzeImage = async (base64Data: string, mimeType: string): Promise<{title: string, summary: string, category: Category}> => {
+export const analyzeImage = async (base64Data: string, mimeType: string): Promise<{ title: string, summary: string, category: Category }> => {
   const { client, modelName } = await GeminiProvider.createModel();
   const response = await client.models.generateContent({
     model: modelName,
