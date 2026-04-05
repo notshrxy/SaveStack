@@ -65,7 +65,7 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
       {/* Dark Backdrop */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -92,8 +92,8 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
               <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">Semantic Connection Map</p>
             </div>
           </div>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="p-2 hover:bg-red-600 transition-colors border-2 border-transparent hover:border-white"
           >
             <X size={24} strokeWidth={3} />
@@ -101,13 +101,13 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
         </div>
 
         {/* Graph Workspace Area */}
-        <div 
+        <div
           ref={containerRef}
           className="flex-grow relative bg-[#222] bg-[url('https://www.transparenttextures.com/patterns/cork-board.png')] overflow-hidden select-none"
         >
           {/* Controls Overlay */}
           <div className="absolute top-6 left-6 z-30 pointer-events-none">
-            <button 
+            <button
               onClick={loadGraph}
               disabled={loading}
               className="pointer-events-auto bg-yellow-400 border-4 border-black px-4 py-2 font-black uppercase text-[10px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300 active:translate-x-1 active:translate-y-1 active:shadow-none flex items-center gap-2"
@@ -123,10 +123,10 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
               const from = positions[conn.fromId];
               const to = positions[conn.toId];
               if (!from || !to) return null;
-              
+
               // Center point offset for the sticky note size (approx 144x96)
               const offset = { x: 72, y: 48 };
-              
+
               return (
                 <motion.path
                   key={`${conn.fromId}-${conn.toId}-${i}`}
@@ -158,7 +158,7 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
                   animate={{ opacity: 1, scale: 1, x: pos.x, y: pos.y }}
                   className="absolute pointer-events-auto cursor-grab active:cursor-grabbing"
                 >
-                  <NeoCard 
+                  <NeoCard
                     className={`w-36 p-3 transform transition-shadow rotate-${(i % 5) - 2} ${i % 2 === 0 ? 'bg-yellow-100' : 'bg-cyan-50'} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border-2 border-black/60`}
                   >
                     <div className="w-3 h-3 bg-red-900 rounded-full border-2 border-black absolute -top-1.5 left-1/2 -translate-x-1/2"></div>
@@ -171,8 +171,8 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
 
             {items.length === 0 && (
               <div className="w-full h-full flex flex-col items-center justify-center text-white/20 gap-4">
-                 <AlertCircle size={80} strokeWidth={1} />
-                 <p className="font-black uppercase text-2xl tracking-widest">Stash is empty</p>
+                <AlertCircle size={80} strokeWidth={1} />
+                <p className="font-black uppercase text-2xl tracking-widest">Stash is empty</p>
               </div>
             )}
           </div>
@@ -198,12 +198,12 @@ const BrainWeb: React.FC<BrainWebProps> = ({ isOpen, onClose, items }) => {
 
         {/* Footer Area */}
         <div className="bg-gray-100 border-t-4 border-black p-4 shrink-0 flex items-center justify-center gap-6">
-           <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[9px] font-black uppercase text-gray-500">System Ready</span>
-           </div>
-           <div className="h-4 w-[2px] bg-black/10" />
-           <span className="text-[9px] font-black uppercase text-gray-500">Mapping {items.length} Brain Cells</span>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-[9px] font-black uppercase text-gray-500">System Ready</span>
+          </div>
+          <div className="h-4 w-[2px] bg-black/10" />
+          <span className="text-[9px] font-black uppercase text-gray-500">Mapping {items.length} Brain Cells</span>
         </div>
       </motion.div>
     </div>
