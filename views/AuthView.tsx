@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import NeoCard from '../components/ui/NeoCard';
 import NeoButton from '../components/ui/NeoButton';
 import ProfileCard from '../components/Profile_Card';
-import SupabaseGuide from './SupabaseGuide';
-import { User, Zap, Loader2, LogOut, AlertTriangle, Database, ShieldAlert, RefreshCw, UserMinus, Cpu, Layers, Sparkles, X } from 'lucide-react';
+import SupabaseGuide from '../components/SupabaseGuide';
+import { User, Zap, Loader2, LogOut, AlertTriangle, RefreshCw, UserMinus, Cpu, Layers, Sparkles, X } from 'lucide-react';
 import { authService } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -48,7 +48,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
     setIsCheckingProfile(true);
     try {
       const data = await authService.getProfile(userId);
-      
+
       if (data && 'error' in data && data.error === 'TABLE_MISSING') {
         setAuthError("TABLE_MISSING");
         setProfile(null);
@@ -77,7 +77,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isConfigured) return;
-    
+
     setLoading(true);
     setAuthError(null);
     setFriendlyReminder(null);
@@ -85,8 +85,8 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
     try {
       if (mode === 'signup') {
         if (!selectedAvatar) throw new Error("Pick an avatar first!");
-        await authService.signUp(email, password, { 
-          username: username || email.split('@')[0], 
+        await authService.signUp(email, password, {
+          username: username || email.split('@')[0],
           avatar_url: selectedAvatar,
         });
         setFriendlyReminder({
@@ -99,7 +99,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
       }
     } catch (err: any) {
       const msg = err.message || "";
-      
+
       if (msg.toLowerCase().includes("user already registered") || msg.toLowerCase().includes("already exists")) {
         setFriendlyReminder({
           title: "USER ALREADY REGISTERED",
@@ -134,15 +134,15 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center space-y-8 animate-in fade-in zoom-in duration-500">
         <div className="bg-red-500 p-12 border-[8px] border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] -rotate-2">
-           <AlertTriangle size={80} className="text-white mx-auto mb-4 animate-bounce" strokeWidth={3} />
-           <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic">LINK OFFLINE</h2>
+          <AlertTriangle size={80} className="text-white mx-auto mb-4 animate-bounce" strokeWidth={3} />
+          <h2 className="text-6xl font-black text-white uppercase tracking-tighter italic">LINK OFFLINE</h2>
         </div>
         <NeoCard className="max-w-xl bg-white p-8 border-4 border-black">
-           <h3 className="text-2xl font-black uppercase mb-4 text-red-600">Config Sync Failure</h3>
-           <p className="font-bold text-gray-700 mb-6 leading-relaxed">Supabase credentials are missing. Check services/supabaseClient.ts.</p>
-           <NeoButton onClick={() => window.location.reload()} fullWidth className="!bg-black !text-white py-4 flex items-center justify-center gap-2">
-             <RefreshCw size={20} className="mr-2" /> RE-SCAN CONNECTION
-           </NeoButton>
+          <h3 className="text-2xl font-black uppercase mb-4 text-red-600">Config Sync Failure</h3>
+          <p className="font-bold text-gray-700 mb-6 leading-relaxed">Supabase credentials are missing. Check services/supabaseClient.ts.</p>
+          <NeoButton onClick={() => window.location.reload()} fullWidth className="!bg-black !text-white py-4 flex items-center justify-center gap-2">
+            <RefreshCw size={20} className="mr-2" /> RE-SCAN CONNECTION
+          </NeoButton>
         </NeoCard>
       </div>
     );
@@ -150,24 +150,11 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
 
   return (
     <div className="flex flex-col items-center justify-start w-full max-w-[1400px] mx-auto space-y-12 pb-20 px-6">
-      
-      {/* HUD: Connection Status */}
-      <div className="w-full flex justify-center gap-4">
-        <div className="flex items-center gap-2 px-4 py-2 border-2 border-black font-black text-[10px] uppercase bg-lime-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <ShieldAlert size={14} /> ENV: CONNECTED
-        </div>
-        <div 
-          onClick={() => !dbConnected && setIsGuideOpen(true)}
-          className={`flex items-center gap-2 px-4 py-2 border-2 border-black font-black text-[10px] uppercase cursor-pointer transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none ${dbConnected ? 'bg-cyan-400 text-black' : 'bg-red-500 text-white animate-pulse'}`}
-        >
-          {dbConnected ? <Database size={14} /> : <AlertTriangle size={14} />}
-          {dbConnected ? 'DB: SCHEMATICS OK' : 'DB: TABLE MISSING (FIX)'}
-        </div>
-      </div>
 
+      {/* Identity & Hub */}
       {!user ? (
         <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-8 duration-500 relative">
-          
+
           {/* Friendly Reminder Pop-up */}
           <AnimatePresence>
             {friendlyReminder && (
@@ -178,7 +165,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                 className="absolute -top-32 left-0 right-0 z-50 pointer-events-auto"
               >
                 <NeoCard className="bg-yellow-200 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative rotate-1">
-                  <button 
+                  <button
                     onClick={() => setFriendlyReminder(null)}
                     className="absolute top-2 right-2 p-1 hover:bg-black/5 rounded-full"
                   >
@@ -196,7 +183,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                     </div>
                   </div>
                   <div className="mt-4">
-                    <button 
+                    <button
                       onClick={() => setFriendlyReminder(null)}
                       className="w-full py-1.5 bg-black text-white font-black text-[10px] uppercase tracking-[0.2em] hover:bg-purple-600 transition-colors"
                     >
@@ -210,13 +197,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
 
           <NeoCard className="w-full relative overflow-visible bg-white p-0">
             <div className="flex border-b-4 border-black">
-              <button 
+              <button
                 onClick={() => { setMode('signin'); setAuthError(null); setFriendlyReminder(null); }}
                 className={`flex-1 py-4 font-black uppercase text-sm tracking-widest transition-all ${mode === 'signin' ? 'bg-[#B088FF] text-white' : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
               >
                 Sign In
               </button>
-              <button 
+              <button
                 onClick={() => { setMode('signup'); setAuthError(null); setFriendlyReminder(null); }}
                 className={`flex-1 py-4 font-black uppercase text-sm tracking-widest transition-all ${mode === 'signup' ? 'bg-[#A3E635] text-black' : 'bg-gray-100 hover:bg-gray-200 text-black'}`}
               >
@@ -250,7 +237,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                   <>
                     <div className="group">
                       <label className="block font-black uppercase text-xs mb-1 ml-1">Username</label>
-                      <input 
+                      <input
                         type="text" required value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Technomancer"
                         className="w-full bg-[#FAF5E9] border-4 border-black rounded-xl px-4 py-3 font-bold text-lg outline-none transition-all focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                       />
@@ -302,18 +289,18 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
         </div>
       ) : isCheckingProfile ? (
         <div className="flex flex-col items-center justify-center py-24 gap-6">
-           <div className="relative">
-             <Loader2 className="animate-spin text-purple-600" size={64} strokeWidth={3} />
-             <div className="absolute inset-0 m-auto w-4 h-4 bg-lime-400 border-2 border-black animate-ping" />
-           </div>
-           <p className="font-black uppercase tracking-[0.3em] text-sm animate-pulse">Establishing Identity Link...</p>
+          <div className="relative">
+            <Loader2 className="animate-spin text-purple-600" size={64} strokeWidth={3} />
+            <div className="absolute inset-0 m-auto w-4 h-4 bg-lime-400 border-2 border-black animate-ping" />
+          </div>
+          <p className="font-black uppercase tracking-[0.3em] text-sm animate-pulse">Establishing Identity Link...</p>
         </div>
       ) : profile ? (
         <div className="w-full flex flex-col md:flex-row items-start justify-center gap-12 animate-in fade-in zoom-in-95 duration-500">
-          
+
           {/* LEFT COLUMN: Identity & Controls */}
           <div className="flex flex-col items-center space-y-8 shrink-0">
-            <ProfileCard 
+            <ProfileCard
               name={profile.username || 'Neural User'}
               title={getRankedTitle(gender, itemsCount)}
               avatarUrl={profile.avatar_url || 'https://api.dicebear.com/9.x/lorelei/svg?seed=Riley'}
@@ -321,10 +308,10 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
               behindGlowColor="rgba(125, 190, 255, 0.67)"
               enableTilt={true}
             />
-            
-            <NeoButton 
-              onClick={handleSignOut} 
-              variant="secondary" 
+
+            <NeoButton
+              onClick={handleSignOut}
+              variant="secondary"
               className="px-12 py-4 !bg-red-50 !text-red-600 !border-red-600 shadow-[6px_6px_0px_0px_rgba(220,38,38,0.2)]"
             >
               <LogOut size={20} className="mr-3" /> ABORT SESSION
@@ -342,9 +329,9 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                     </div>
                     <div>
                       <h3 className="text-4xl font-black uppercase tracking-tighter leading-none">Neural Link</h3>
-                      <p className="font-bold text-gray-400 text-xs uppercase tracking-widest mt-2 flex items-center gap-2">
+                      <div className="font-bold text-gray-400 text-xs uppercase tracking-widest mt-2 flex items-center gap-2">
                         <div className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" /> Status: Fully Synchronized
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -355,7 +342,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                       Augment your knowledge hub with AI collections
                     </h4>
                     <p className="font-bold text-gray-500 text-sm leading-relaxed">
-                      Transform your saved items into an interconnected intelligence network. 
+                      Transform your saved items into an interconnected intelligence network.
                       Enable neural synthesis to reveal hidden patterns across your stashed data.
                     </p>
                   </div>
@@ -374,9 +361,9 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
                   </div>
                 </div>
 
-                <NeoButton 
-                  fullWidth 
-                  onClick={onOpenKeys} 
+                <NeoButton
+                  fullWidth
+                  onClick={onOpenKeys}
                   className="!bg-black !text-white !py-8 !text-2xl tracking-tighter font-black shadow-[10px_10px_0px_rgba(163,230,53,1)] hover:shadow-none transition-all active:translate-x-1 active:translate-y-1"
                 >
                   {hasKeys ? 'RECONFIGURE CORE' : 'ESTABLISH NEURAL LINK'}
@@ -388,24 +375,24 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
       ) : (
         /* MISSING PROFILE STATE (Strict) */
         <div className="w-full max-w-xl animate-in fade-in zoom-in duration-500">
-           <NeoCard className="bg-white p-12 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] text-center">
-              <div className="bg-red-500 p-4 border-4 border-black w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-[5px_5px_0px_black]">
-                <UserMinus size={40} className="text-white" />
-              </div>
-              <h2 className="text-4xl font-black uppercase mb-4 tracking-tighter">Profile Required</h2>
-              <p className="font-bold text-gray-500 mb-8 leading-tight">
-                Authentication successful, but no identity record found in the database. 
-                Run the SQL schematics or re-create your account.
-              </p>
-              <div className="flex flex-col gap-4">
-                <NeoButton onClick={() => setIsGuideOpen(true)} className="!bg-[#A3E635] !text-black py-4">
-                  CHECK SQL GUIDE
-                </NeoButton>
-                <NeoButton onClick={handleSignOut} variant="secondary" className="py-4">
-                  LOG OUT
-                </NeoButton>
-              </div>
-           </NeoCard>
+          <NeoCard className="bg-white p-12 border-8 border-black shadow-[15px_15px_0px_0px_rgba(0,0,0,1)] text-center">
+            <div className="bg-red-500 p-4 border-4 border-black w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-[5px_5px_0px_black]">
+              <UserMinus size={40} className="text-white" />
+            </div>
+            <h2 className="text-4xl font-black uppercase mb-4 tracking-tighter">Profile Required</h2>
+            <p className="font-bold text-gray-500 mb-8 leading-tight">
+              Authentication successful, but no identity record found in the database.
+              Run the SQL schematics or re-create your account.
+            </p>
+            <div className="flex flex-col gap-4">
+              <NeoButton onClick={() => setIsGuideOpen(true)} className="!bg-[#A3E635] !text-black py-4">
+                CHECK SQL GUIDE
+              </NeoButton>
+              <NeoButton onClick={handleSignOut} variant="secondary" className="py-4">
+                LOG OUT
+              </NeoButton>
+            </div>
+          </NeoCard>
         </div>
       )}
 
