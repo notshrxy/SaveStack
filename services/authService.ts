@@ -9,7 +9,7 @@ const ensureConfigured = () => {
 export const authService = {
   async signUp(email: string, password: string, profileData: { username: string, avatar_url: string | null }) {
     ensureConfigured();
-    
+
     // 1. Create the Auth User
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
@@ -36,7 +36,7 @@ export const authService = {
           avatar_url: profileData.avatar_url,
           updated_at: new Date().toISOString()
         });
-      
+
       if (profileError) {
         console.error("Manual profile insertion failed:", profileError.message);
         // Note: We don't throw here because the Auth account was still created.
@@ -71,7 +71,7 @@ export const authService = {
         .select('*')
         .eq('id', userId)
         .maybeSingle();
-        
+
       if (error) {
         if (error.code === '42P01') return { error: 'TABLE_MISSING' };
         return null;
