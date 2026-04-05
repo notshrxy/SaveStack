@@ -1,5 +1,5 @@
 
-export type Category = string;
+export type Category = (typeof DEFAULT_CATEGORIES)[keyof typeof DEFAULT_CATEGORIES] | (string & {});
 
 export const DEFAULT_CATEGORIES = {
   FULL_STACK: 'Full Stack',
@@ -11,7 +11,7 @@ export const DEFAULT_CATEGORIES = {
   SCREENSHOTS: 'Screenshots',
   NOTES: 'Notes',
   OTHER: 'Other'
-};
+} as const;
 
 export const CATEGORY_LIST = Object.values(DEFAULT_CATEGORIES);
 
