@@ -12,7 +12,9 @@ interface FocusTimerProps {
 const FocusTimer: React.FC<FocusTimerProps> = ({ isOpen, onClose }) => {
   const [seconds, setSeconds] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
-  const [mode, setMode] = useState<'FOCUS' | 'BREAK'>('FOCUS');
+  const [mode, setMode] = useState<'FOCUS' | 'BREAK' | 'CUSTOM'>('FOCUS');
+  const [customValue, setCustomValue] = useState(10);
+  const [customSecs, setCustomSecs] = useState(0);
 
   useEffect(() => {
     let interval: any = null;
@@ -30,7 +32,9 @@ const FocusTimer: React.FC<FocusTimerProps> = ({ isOpen, onClose }) => {
   const toggleTimer = () => setIsActive(!isActive);
   const resetTimer = () => {
     setIsActive(false);
-    setSeconds(mode === 'FOCUS' ? 25 * 60 : 5 * 60);
+    if (mode === 'FOCUS') setSeconds(25 * 60);
+    else if (mode === 'BREAK') setSeconds(5 * 60);
+    else setSeconds(customValue * 60 + customSecs);
   };
 
   const formatTime = (s: number) => {
@@ -42,7 +46,7 @@ const FocusTimer: React.FC<FocusTimerProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <motion.div 
+    <motion.div
       drag
       dragMomentum={false}
       initial={{ opacity: 0, x: 100 }}
@@ -62,31 +66,77 @@ const FocusTimer: React.FC<FocusTimerProps> = ({ isOpen, onClose }) => {
 
         <div className="text-center py-4">
           <h2 className="text-5xl font-black font-mono tracking-tighter mb-6">{formatTime(seconds)}</h2>
-          
+
           <div className="flex gap-2 justify-center mb-6">
-            <button 
+            <button
               onClick={() => { setMode('FOCUS'); setSeconds(25 * 60); setIsActive(false); }}
               className={`px-3 py-1 font-black text-[10px] border-2 border-black uppercase ${mode === 'FOCUS' ? 'bg-black text-white' : 'bg-gray-100'}`}
             >
               Study
             </button>
-            <button 
+            <button
               onClick={() => { setMode('BREAK'); setSeconds(5 * 60); setIsActive(false); }}
               className={`px-3 py-1 font-black text-[10px] border-2 border-black uppercase ${mode === 'BREAK' ? 'bg-black text-white' : 'bg-gray-100'}`}
             >
               Chill
             </button>
+            <button
+              onClick={() => { setMode('CUSTOM'); setSeconds(customValue * 60 + customSecs); setIsActive(false); }}
+              className={`px-3 py-1 font-black text-[10px] border-2 border-black uppercase ${mode === 'CUSTOM' ? 'bg-black text-white' : 'bg-gray-100'}`}
+            >
+              Custom
+            </button>
           </div>
 
+          {mode === 'CUSTOM' && (
+            <div className="mb-6 flex flex-col items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
+                <div className="flex flex-col items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="999"
+                    value={customValue}
+                    onChange={(e) => {
+                      const val = Math.max(0, parseInt(e.target.value) || 0);
+                      setCustomValue(val);
+                      setSeconds(val * 60 + customSecs);
+                    }}
+                    className="w-14 px-2 py-1 border-2 border-black font-black text-center focus:outline-none bg-yellow-50"
+                  />
+                  <span className="font-black text-[8px] uppercase opacity-60 tracking-tighter">Mins</span>
+                </div>
+
+                <span className="font-black text-xl">:</span>
+
+                <div className="flex flex-col items-center gap-1">
+                  <input
+                    type="number"
+                    min="0"
+                    max="59"
+                    value={customSecs}
+                    onChange={(e) => {
+                      const val = Math.min(59, Math.max(0, parseInt(e.target.value) || 0));
+                      setCustomSecs(val);
+                      setSeconds(customValue * 60 + val);
+                    }}
+                    className="w-14 px-2 py-1 border-2 border-black font-black text-center focus:outline-none bg-yellow-50"
+                  />
+                  <span className="font-black text-[8px] uppercase opacity-60 tracking-tighter">Secs</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-4">
-            <button 
+            <button
               onClick={toggleTimer}
               className={`flex-1 py-3 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-2 font-black uppercase text-sm ${isActive ? 'bg-orange-400' : 'bg-lime-400'}`}
             >
               {isActive ? <Pause size={18} fill="black" /> : <Play size={18} fill="black" />}
               {isActive ? 'Pause' : 'Start'}
             </button>
-            <button 
+            <button
               onClick={resetTimer}
               className="p-3 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 bg-white"
             >
@@ -96,8 +146,8 @@ const FocusTimer: React.FC<FocusTimerProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="mt-4 pt-4 border-t-2 border-black/10 flex items-center gap-3 opacity-60">
-           <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-lime-500 animate-pulse' : 'bg-gray-400'}`} />
-           <span className="text-[10px] font-bold uppercase">{isActive ? 'Clock ticking...' : 'Ready to focus?'}</span>
+          <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-lime-500 animate-pulse' : 'bg-gray-400'}`} />
+          <span className="text-[10px] font-bold uppercase">{isActive ? 'Clock ticking...' : 'Ready to focus?'}</span>
         </div>
       </NeoCard>
     </motion.div>
