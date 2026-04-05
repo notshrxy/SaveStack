@@ -1,15 +1,19 @@
 
-export enum Category {
-  FULL_STACK = 'Full Stack',
-  UI_UX = 'UI/UX',
-  DESIGN = 'Design',
-  GAME_DEV = 'Game Dev',
-  AI_ML = 'AI/ML',
-  TOOLS = 'Tools & Productivity',
-  SCREENSHOTS = 'Screenshots',
-  NOTES = 'Notes',
-  OTHER = 'Other'
-}
+export type Category = string;
+
+export const DEFAULT_CATEGORIES = {
+  FULL_STACK: 'Full Stack',
+  UI_UX: 'UI/UX',
+  DESIGN: 'Design',
+  GAME_DEV: 'Game Dev',
+  AI_ML: 'AI/ML',
+  TOOLS: 'Tools & Productivity',
+  SCREENSHOTS: 'Screenshots',
+  NOTES: 'Notes',
+  OTHER: 'Other'
+};
+
+export const CATEGORY_LIST = Object.values(DEFAULT_CATEGORIES);
 
 export enum AIProvider {
   GEMINI = 'gemini',
@@ -40,20 +44,24 @@ export interface SemanticConnection {
   reason: string;
 }
 
-export type RecentActivityEntry = 
+export type RecentActivityEntry =
   | { type: 'ITEM'; data: ContentItem }
   | { type: 'CATEGORY'; data: Category };
 
 export type ViewState = 'HOME' | 'PROJECTS' | 'ABOUT_US' | 'AUTH' | 'BRAIN_WEB';
 
-export const CATEGORY_COLORS: Record<Category, string> = {
-  [Category.FULL_STACK]: 'bg-yellow-400',
-  [Category.UI_UX]: 'bg-purple-400',
-  [Category.DESIGN]: 'bg-pink-400',
-  [Category.GAME_DEV]: 'bg-orange-400',
-  [Category.AI_ML]: 'bg-lime-400',
-  [Category.TOOLS]: 'bg-cyan-400',
-  [Category.SCREENSHOTS]: 'bg-orange-500',
-  [Category.NOTES]: 'bg-green-400',
-  [Category.OTHER]: 'bg-gray-300'
+export const CATEGORY_COLORS: Record<string, string> = {
+  [DEFAULT_CATEGORIES.FULL_STACK]: 'bg-yellow-400',
+  [DEFAULT_CATEGORIES.UI_UX]: 'bg-purple-400',
+  [DEFAULT_CATEGORIES.DESIGN]: 'bg-pink-400',
+  [DEFAULT_CATEGORIES.GAME_DEV]: 'bg-orange-400',
+  [DEFAULT_CATEGORIES.AI_ML]: 'bg-lime-400',
+  [DEFAULT_CATEGORIES.TOOLS]: 'bg-cyan-400',
+  [DEFAULT_CATEGORIES.SCREENSHOTS]: 'bg-orange-500',
+  [DEFAULT_CATEGORIES.NOTES]: 'bg-green-400',
+  [DEFAULT_CATEGORIES.OTHER]: 'bg-gray-300'
+};
+
+export const getCategoryColor = (category: string): string => {
+  return CATEGORY_COLORS[category] || 'bg-gray-200';
 };
