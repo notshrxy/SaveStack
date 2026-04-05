@@ -38,7 +38,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
   const [friendlyReminder, setFriendlyReminder] = useState<{ title: string; message: string } | null>(null);
   const [profile, setProfile] = useState<any>(null);
   const [dbConnected, setDbConnected] = useState<boolean | null>(null);
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isCheckingProfile, setIsCheckingProfile] = useState(false);
 
   const isConfigured = isSupabaseConfigured();
@@ -384,9 +383,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
               Run the SQL schematics or re-create your account.
             </p>
             <div className="flex flex-col gap-4">
-              <NeoButton onClick={() => setIsGuideOpen(true)} className="!bg-[#A3E635] !text-black py-4">
-                CHECK SQL GUIDE
-              </NeoButton>
               <NeoButton onClick={handleSignOut} variant="secondary" className="py-4">
                 LOG OUT
               </NeoButton>
@@ -395,7 +391,6 @@ const AuthView: React.FC<AuthViewProps> = ({ onOpenKeys, hasKeys = false, user, 
         </div>
       )}
 
-      <SupabaseGuide isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
     </div>
   );
 };
