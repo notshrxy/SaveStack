@@ -90,7 +90,7 @@ function App() {
         return true;
       }
 
-      if (process.env.API_KEY) {
+      if (import.meta.env.VITE_API_KEY) {
         setIsAIOffline(false);
         return true;
       }
