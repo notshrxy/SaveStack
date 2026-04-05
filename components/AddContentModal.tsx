@@ -100,7 +100,7 @@ const AddContentModal: React.FC<AddContentModalProps> = ({
 
         let finalTitle = mode === 'link' ? linkTitle : noteTitle;
         let finalSummary = mode === 'link' ? linkSummary : textSummary;
-        let finalCategory = DEFAULT_CATEGORIES.OTHER;
+        let finalCategory = DEFAULT_CATEGORIES.OTHER as Category;
 
         const needsAI = (mode === 'text') && (!finalTitle.trim() || !finalSummary.trim()) && !isManual && !isAIOffline;
 
