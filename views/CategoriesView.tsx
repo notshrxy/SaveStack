@@ -103,7 +103,7 @@ const CategoriesView: React.FC<CategoriesViewProps> = ({ items, selectedCategory
     ];
 
     const defaultIds = defaultCats.map(c => c.id);
-    const customIds = Array.from(new Set(items.map(i => i.category))).filter(id => !defaultIds.includes(id));
+    const customIds = Array.from(new Set(items.map(i => i.category))).filter(id => !(defaultIds as readonly string[]).includes(id));
 
     const customCats = customIds.map(id => ({
       id,
