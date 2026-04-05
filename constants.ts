@@ -1,4 +1,4 @@
-import { Category, ContentItem } from './types';
+import { Category, ContentItem, DEFAULT_CATEGORIES } from './types';
 
 export const MOCK_ITEMS: ContentItem[] = [
   {
@@ -7,7 +7,7 @@ export const MOCK_ITEMS: ContentItem[] = [
     source: 'YouTube',
     url: 'https://youtube.com',
     summary: 'A deep dive into automatic batching and transitions in the new React engine.',
-    category: Category.FULL_STACK,
+    category: DEFAULT_CATEGORIES.FULL_STACK,
     isChecked: false,
     dateAdded: Date.now() - 10000000,
     // Fix: Added required lastInteracted property
@@ -19,7 +19,7 @@ export const MOCK_ITEMS: ContentItem[] = [
     source: 'Instagram',
     url: 'https://instagram.com',
     summary: 'Visual examples of high contrast borders and loud typography in modern web apps.',
-    category: Category.DESIGN,
+    category: DEFAULT_CATEGORIES.DESIGN,
     isChecked: false,
     dateAdded: Date.now() - 5000000,
     // Fix: Added required lastInteracted property
@@ -31,7 +31,7 @@ export const MOCK_ITEMS: ContentItem[] = [
     source: 'Arxiv',
     url: 'https://arxiv.org',
     summary: 'Attention is all you need. The foundational paper for modern LLMs.',
-    category: Category.AI_ML,
+    category: DEFAULT_CATEGORIES.AI_ML,
     isChecked: true,
     dateAdded: Date.now() - 20000000,
     // Fix: Added required lastInteracted property
@@ -43,7 +43,7 @@ export const MOCK_ITEMS: ContentItem[] = [
     source: 'YouTube',
     url: 'https://youtube.com',
     summary: 'How to build responsive components using advanced auto-layout constraints.',
-    category: Category.UI_UX,
+    category: DEFAULT_CATEGORIES.UI_UX,
     isChecked: false,
     dateAdded: Date.now() - 100000,
     // Fix: Added required lastInteracted property
