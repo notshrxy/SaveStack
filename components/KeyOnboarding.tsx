@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BrainCircuit, Loader2, Key, ArrowRight, ShieldCheck, Lock, Activity, CheckCircle, HelpCircle, XCircle, ExternalLink, Zap, AlertTriangle, ShieldAlert, UserCheck } from 'lucide-react';
+import { BrainCircuit, Loader2, Key, ArrowRight, ShieldCheck, Lock, Activity, CheckCircle, HelpCircle, XCircle, ExternalLink, Zap, AlertTriangle, ShieldAlert, UserCheck, X } from 'lucide-react';
 import NeoCard from './ui/NeoCard';
 import NeoButton from './ui/NeoButton';
 import { AIProvider } from '../types';
@@ -47,12 +47,12 @@ const KeyOnboarding: React.FC<KeyOnboardingProps> = ({ isLoggedIn, onGoToAuth, o
   const handleConnectGemini = async () => {
     if (!geminiKey) return;
     setIsConnecting(true);
-    
+
     try {
       // 1. EAGER SAVE: Add to DB immediately
       console.log("Vaulting Gemini Key...");
       await vaultService.saveKey(AIProvider.GEMINI, geminiKey);
-      
+
       // Update local UI state optimistically
       setVaultStatus(prev => ({ ...prev, [AIProvider.GEMINI]: true }));
 
@@ -99,26 +99,35 @@ const KeyOnboarding: React.FC<KeyOnboardingProps> = ({ isLoggedIn, onGoToAuth, o
   };
 
   return (
-    <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl">
+    <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 50 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full max-w-5xl relative"
+        className="w-full max-w-3xl relative my-8"
       >
-        <NeoCard className="bg-white p-0 border-[8px] border-black shadow-[20px_20px_0px_0px_rgba(176,136,255,1)] flex flex-col md:flex-row min-h-[550px] overflow-hidden">
-          
+        {/* Close Button - Outside the box */}
+        <button
+          onClick={onSkip}
+          className="absolute -top-6 -right-6 z-[100] bg-red-500 p-2 border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all group"
+          title="Close"
+        >
+          <X size={20} className="text-white group-hover:rotate-90 transition-transform" strokeWidth={4} />
+        </button>
+
+        <NeoCard className="bg-white p-0 border-[8px] border-black shadow-[12px_12px_0px_0px_rgba(176,136,255,1)] flex flex-col md:flex-row overflow-hidden max-h-[85vh]">
+
           {/* Sidebar Rail */}
-          <div className="md:w-60 bg-black flex flex-col shrink-0 border-r-[8px] border-black">
-            <div className="p-8 bg-[#B088FF] border-b-[8px] border-black flex items-center justify-center">
-              <ShieldCheck size={40} className="text-black" />
+          <div className="md:w-44 bg-black flex flex-col shrink-0 border-r-[8px] border-black overflow-y-auto">
+            <div className="p-4 bg-[#B088FF] border-b-[8px] border-black flex items-center justify-center">
+              <ShieldCheck size={28} className="text-black" />
             </div>
-            <div className="flex-grow py-6">
+            <div className="flex-grow py-2">
               {sidebarItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full p-6 text-left font-black uppercase text-xs tracking-[0.2em] flex items-center justify-between transition-all border-b border-white/5 ${activeTab === item.id ? 'bg-[#A3E635] text-black' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  className={`w-full p-4 text-left font-black uppercase text-[10px] tracking-[0.2em] flex items-center justify-between transition-all border-b border-white/5 ${activeTab === item.id ? 'bg-[#A3E635] text-black' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
                 >
                   <span className="flex items-center gap-3">
                     {item.restricted ? (
@@ -133,131 +142,131 @@ const KeyOnboarding: React.FC<KeyOnboardingProps> = ({ isLoggedIn, onGoToAuth, o
               ))}
             </div>
             <div className="p-6 border-t-[4px] border-white/10">
-               <button 
+              <button
                 onClick={() => setShowWarning(true)}
                 className="w-full py-3 bg-red-600/20 text-red-500 font-black uppercase text-[10px] border-2 border-red-500/50 hover:bg-red-600 hover:text-white transition-all"
-               >
-                 SKIP FOR NOW
-               </button>
+              >
+                SKIP FOR NOW
+              </button>
             </div>
           </div>
 
           {/* Main Interface */}
           <div className="flex-grow flex flex-col bg-[#FAF5E9]">
-            <div className="bg-[#B088FF] text-white p-6 border-b-[8px] border-black flex flex-col gap-2">
+            <div className="bg-[#B088FF] text-white p-3 border-b-[8px] border-black flex flex-col gap-1">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="bg-black p-2 border-2 border-white">
-                     <Activity size={32} className="text-[#A3E635]" strokeWidth={3} />
+                <div className="flex items-center gap-3">
+                  <div className="bg-black p-1 border-2 border-white">
+                    <Activity size={20} className="text-[#A3E635]" strokeWidth={3} />
                   </div>
-                  <h2 className="font-jersey text-5xl uppercase tracking-widest leading-none">Neural Link Required</h2>
+                  <h2 className="font-jersey text-3xl uppercase tracking-widest leading-none">Neural Link Required</h2>
                 </div>
-                <div className="bg-black text-white px-3 py-1 font-black text-xs uppercase border-2 border-white">
+                <div className="bg-black text-white px-2 py-0.5 font-black text-[9px] uppercase border-2 border-white">
                   v1.1.0-SECURE
                 </div>
               </div>
               <div className="mt-1">
-                 <span className="bg-white text-black px-4 py-1 font-black text-[14px] uppercase border-2 border-black inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                   {vaultStatus[AIProvider.GEMINI] ? '(LINK SYNCHRONIZED)' : '(LINK NOT YET ESTABLISHED)'}
-                 </span>
+                <span className="bg-white text-black px-4 py-1 font-black text-[14px] uppercase border-2 border-black inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                  {vaultStatus[AIProvider.GEMINI] ? '(LINK SYNCHRONIZED)' : '(LINK NOT YET ESTABLISHED)'}
+                </span>
               </div>
             </div>
 
-            <div className="p-10 flex-grow">
+            <div className="p-4 flex-grow overflow-y-auto">
               <AnimatePresence mode="wait">
                 {activeTab === AIProvider.GEMINI ? (
-                  <motion.div key="gemini" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                    <div className="space-y-4">
-                       <h3 className="text-5xl font-black uppercase tracking-tight leading-none text-black">
-                         "WHO'S PAYING FOR THE BRAIN POWER?"
-                       </h3>
-                       <p className="text-xl font-bold border-l-8 border-black pl-5 text-black/60 leading-snug max-w-2xl">
-                         To keep SaveStack free for everyone, you must connect your own Google AI Studio API Key. 
-                         <span className="text-black block mt-2">Free Tier keys are fully supported.</span>
-                       </p>
+                  <motion.div key="gemini" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                    <div className="space-y-1">
+                      <h3 className="text-2xl font-black uppercase tracking-tight leading-none text-black">
+                        "WHO'S PAYING FOR THE BRAIN POWER?"
+                      </h3>
+                      <p className="text-base font-bold border-l-4 border-black pl-3 text-black/60 leading-snug max-w-2xl">
+                        To keep SaveStack free for everyone, you must connect your own Google AI Studio API Key.
+                        <span className="text-black block mt-1">Free Tier keys are fully supported.</span>
+                      </p>
                     </div>
 
-                    <div className="bg-white border-4 border-black p-6 flex flex-col gap-4 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
-                       <div className="flex items-center gap-4">
-                          <div className="bg-cyan-400 p-3 border-2 border-black shrink-0">
-                             <Key size={24} className="text-black" />
-                          </div>
-                          <h4 className="font-black uppercase text-sm">ENTER YOUR API KEY</h4>
-                       </div>
-                       <input 
-                          type="password"
-                          value={geminiKey}
-                          onChange={(e) => setGeminiKey(e.target.value)}
-                          placeholder="Paste your Gemini API key here..."
-                          className="w-full bg-[#FAF5E9] border-4 border-black p-4 font-bold text-lg outline-none focus:bg-white transition-all"
-                       />
-                       <p className="text-[10px] font-bold text-gray-500 uppercase leading-tight">
-                         Your key is stored in your private vault and only used for your requests.
-                       </p>
+                    <div className="bg-white border-4 border-black p-3 flex flex-col gap-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                      <div className="flex items-center gap-2">
+                        <div className="bg-cyan-400 p-1.5 border-2 border-black shrink-0">
+                          <Key size={16} className="text-black" />
+                        </div>
+                        <h4 className="font-black uppercase text-[10px]">ENTER YOUR API KEY</h4>
+                      </div>
+                      <input
+                        type="password"
+                        value={geminiKey}
+                        onChange={(e) => setGeminiKey(e.target.value)}
+                        placeholder="Paste your Gemini API key here..."
+                        className="w-full bg-[#FAF5E9] border-2 border-black p-2 font-bold text-sm outline-none focus:bg-white transition-all"
+                      />
+                      <p className="text-[8px] font-bold text-gray-500 uppercase leading-tight">
+                        Your key is stored in your private vault and only used for your requests.
+                      </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-5 pt-4">
-                       <NeoButton 
-                        fullWidth 
-                        size="lg" 
-                        onClick={handleConnectGemini} 
+                    <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                      <NeoButton
+                        fullWidth
+                        size="lg"
+                        onClick={handleConnectGemini}
                         disabled={isConnecting || !geminiKey}
-                        className="!bg-[#A3E635] !text-black text-2xl py-8 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] flex-grow"
-                       >
-                         {isConnecting ? <Loader2 size={32} className="animate-spin" /> : <>CONNECT YOUR GEMINI <ArrowRight size={28} className="ml-3" strokeWidth={3} /></>}
-                       </NeoButton>
-                       <NeoButton 
-                        variant="secondary" 
-                        onClick={onSkip} 
-                        className="!bg-gray-300 !text-black px-12 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]"
-                       >
-                         LATER
-                       </NeoButton>
+                        className="!bg-[#A3E635] !text-black text-lg py-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex-grow"
+                      >
+                        {isConnecting ? <Loader2 size={20} className="animate-spin" /> : <>CONNECT YOUR GEMINI <ArrowRight size={20} className="ml-2" strokeWidth={3} /></>}
+                      </NeoButton>
+                      <NeoButton
+                        variant="secondary"
+                        onClick={onSkip}
+                        className="!bg-gray-300 !text-black px-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                      >
+                        LATER
+                      </NeoButton>
                     </div>
                   </motion.div>
                 ) : !isLoggedIn ? (
-                  <motion.div key="logged-out" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-full flex flex-col items-center justify-center text-center space-y-8">
-                     <div className="bg-red-500 p-8 border-8 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-                        <UserCheck size={64} className="text-white mx-auto mb-4" strokeWidth={3} />
-                        <h3 className="text-4xl font-black uppercase text-white tracking-tighter">Identity Required</h3>
-                     </div>
-                     <p className="max-w-md font-bold text-xl leading-snug text-black/60">
-                        We can't store cloud secrets for a ghost. You need to sign in to SaveStack to enable fallback vaulting.
-                     </p>
-                     <NeoButton size="lg" onClick={onGoToAuth} className="px-12 !bg-black !text-white text-2xl py-6 shadow-[8px_8px_0px_0px_rgba(163,230,53,1)]">
-                        LOG IN TO LINK
-                     </NeoButton>
+                  <motion.div key="logged-out" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-full flex flex-col items-center justify-center text-center space-y-6">
+                    <div className="bg-red-500 p-6 border-8 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                      <UserCheck size={48} className="text-white mx-auto mb-2" strokeWidth={3} />
+                      <h3 className="text-3xl font-black uppercase text-white tracking-tighter">Identity Required</h3>
+                    </div>
+                    <p className="max-w-md font-bold text-lg leading-snug text-black/60">
+                      We can't store cloud secrets for a ghost. You need to sign in to SaveStack to enable fallback vaulting.
+                    </p>
+                    <NeoButton size="lg" onClick={onGoToAuth} className="px-10 !bg-black !text-white text-xl py-4 shadow-[8px_8px_0px_0px_rgba(163,230,53,1)]">
+                      LOG IN TO LINK
+                    </NeoButton>
                   </motion.div>
                 ) : (
-                  <motion.div key="vault" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                     <div className="bg-black text-[#A3E635] p-8 border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="flex items-center gap-4 mb-3">
-                           <Lock size={32} />
-                           <h3 className="text-3xl font-black uppercase">PROVIDER VAULT</h3>
-                        </div>
-                        <p className="font-bold text-sm uppercase text-white/70 leading-tight">
-                          Plug in your {activeTab.toUpperCase()} key — we’ll handle the rest.
-                          <br/>
-                          One key. Fewer failures. Smarter routing.
-                        </p>
-                     </div>
+                  <motion.div key="vault" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                    <div className="bg-black text-[#A3E635] p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                      <div className="flex items-center gap-3 mb-2">
+                        <Lock size={24} />
+                        <h3 className="text-2xl font-black uppercase">PROVIDER VAULT</h3>
+                      </div>
+                      <p className="font-bold text-xs uppercase text-white/70 leading-tight">
+                        Plug in your {activeTab.toUpperCase()} key — we’ll handle the rest.
+                        <br />
+                        One key. Fewer failures. Smarter routing.
+                      </p>
+                    </div>
 
-                     <div className="space-y-4">
-                        <label className="block font-black uppercase text-xs tracking-widest text-black/50">Provider Secret Key</label>
-                        <div className="relative group">
-                           <input 
-                              type="password"
-                              value={tempKey}
-                              onChange={(e) => setTempKey(e.target.value)}
-                              placeholder={`sk-....`}
-                              className="w-full bg-white border-4 border-black p-6 font-black uppercase text-xl focus:outline-none focus:bg-yellow-50 transition-all"
-                           />
-                        </div>
+                    <div className="space-y-3">
+                      <label className="block font-black uppercase text-[10px] tracking-widest text-black/50">Provider Secret Key</label>
+                      <div className="relative group">
+                        <input
+                          type="password"
+                          value={tempKey}
+                          onChange={(e) => setTempKey(e.target.value)}
+                          placeholder={`sk-....`}
+                          className="w-full bg-white border-4 border-black p-4 font-black uppercase text-lg focus:outline-none focus:bg-yellow-50 transition-all"
+                        />
+                      </div>
 
-                        <NeoButton fullWidth size="lg" onClick={handleSaveVaultKey} disabled={isConnecting}>
-                           {isConnecting ? <Loader2 className="animate-spin" /> : <>SECURE IN HUB VAULT</>}
-                        </NeoButton>
-                     </div>
+                      <NeoButton fullWidth size="lg" onClick={handleSaveVaultKey} disabled={isConnecting}>
+                        {isConnecting ? <Loader2 className="animate-spin" /> : <>SECURE IN HUB VAULT</>}
+                      </NeoButton>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -268,7 +277,7 @@ const KeyOnboarding: React.FC<KeyOnboardingProps> = ({ isLoggedIn, onGoToAuth, o
         {/* Warning Confirmation Modal */}
         <AnimatePresence>
           {showWarning && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -286,14 +295,14 @@ const KeyOnboarding: React.FC<KeyOnboardingProps> = ({ isLoggedIn, onGoToAuth, o
                     </p>
                   </div>
                   <div className="flex flex-col w-full gap-4">
-                    <NeoButton 
-                      variant="danger" 
+                    <NeoButton
+                      variant="danger"
                       onClick={onDisableAI}
                       className="text-lg py-4"
                     >
                       PROCEED
                     </NeoButton>
-                    <button 
+                    <button
                       onClick={() => setShowWarning(false)}
                       className="font-black uppercase text-xs tracking-widest hover:underline"
                     >
